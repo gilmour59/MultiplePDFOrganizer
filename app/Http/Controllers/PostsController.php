@@ -111,7 +111,6 @@ class PostsController extends Controller
             'addDivision' => 'required',
             'addCategory' => 'required',
             'addDate' => 'required',
-            'addFileName' => 'required'
         ]);
 
         if ($validator->fails())

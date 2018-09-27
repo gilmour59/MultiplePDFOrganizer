@@ -10,7 +10,7 @@ class ArchiveFile extends Model
     use Searchable;
 
     public function category(){
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Division');
     }
     
     public function toSearchableArray()

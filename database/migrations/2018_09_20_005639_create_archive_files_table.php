@@ -17,7 +17,7 @@ class CreateArchiveFilesTable extends Migration
             $table->increments('id');
             $table->date('date');
             $table->longText('content')->nullable();
-            $table->integer('category_id');
+            $table->integer('division_id');
             $table->string('file_name', 100);
             $table->string('file', 100)->nullable();
             $table->timestamps();

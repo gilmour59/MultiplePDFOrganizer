@@ -6,7 +6,7 @@ $factory->define(App\ArchiveFile::class, function (Faker $faker) {
     return [
         'date' => $faker->date(),
         'content' => $faker->realText(),
-        'category_id' => $faker->numberBetween(1, 24),
+        'division_id' => $faker->numberBetween(1, 12),
         'file_name' => $faker->name()
     ];
 });
