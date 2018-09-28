@@ -52,12 +52,6 @@
                         <option value="0">All</option>
                     </select>
                 </div> 
-                <div class="form-group">
-                    <label for="category">Category:</label>
-                    <select class="form-control col-sm-10" id="category" name="category">
-                        <!--ajax gene-->
-                    </select>
-                </div>
             </div>
             <div class="col-sm-9 align-self-center">
                 <div class="input-group">
@@ -94,12 +88,8 @@
         $(document).ready(function(){
 
         Division = {{$division}};
-        Category = {{$category}};
-
-        console.log('category: ' + Category)
 
         ajaxDivisionGenerateForSearch('/division', Division);
-        ajaxCategoryGenerateForSearch('/category/' + Division, Category);
         ajaxLoad('/');
     });
 

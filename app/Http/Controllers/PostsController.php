@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Filesystem\Filesystem;
 use Validator;
 use Illuminate\Http\Request;
 use App\ArchiveFile;
@@ -19,10 +20,6 @@ class PostsController extends Controller
 
     public function index(Request $request)
     {
-        $request->session()->put('category', $request
-                ->has('category') ? $request->get('category') : ($request->session()
-                ->has('category') ? $request->session()->get('category') : 0));
-
         $request->session()->put('division', $request
                 ->has('division') ? $request->get('division') : ($request->session()
                 ->has('division') ? $request->session()->get('division') : 0));
@@ -54,62 +51,66 @@ class PostsController extends Controller
         //dd($isShowAll);
         
         if($request->session()->get('division') == 0){
-            //set category session to 0 if division is selected on all
-            $request->session()->put('category', 0);
             $archiveFiles = $archiveFiles
-                ->join('categories', 'archive_files.category_id', '=', 'categories.id')
-                ->join('divisions', 'categories.division_id', '=', 'divisions.id')
+                ->join('divisions', 'archive_files.division_id', '=', 'divisions.id')
                 ->when($isShowAll == false, function ($query) use ($searchIds){
                     $query->whereIn('archive_files.id', $searchIds);
                 })
-                ->select('archive_files.*', 'categories.name', 'divisions.div_name')
+                ->select('archive_files.*', 'divisions.div_name')
                 ->orderBy($request->session()->get('field'), $request->session()->get('sort'))
                 ->paginate(10);
         }else{
-            //display all files from category
-            if($request->session()->get('category') == 0){
                 $archiveFiles = $archiveFiles
-                    ->join('categories', 'archive_files.category_id', '=', 'categories.id')
-                    ->join('divisions', 'categories.division_id', '=', 'divisions.id')
-                    ->where('categories.division_id', '=', $request->session()->get('division'))
+                    ->join('divisions', 'archive_files.division_id', '=', 'divisions.id')
+                    ->where('archive_files.division_id', '=', $request->session()->get('division'))
                     ->when($isShowAll == false, function ($query) use ($searchIds){
                         $query->whereIn('archive_files.id', $searchIds);
                     })
-                    ->select('archive_files.*', 'categories.name', 'divisions.div_name')
+                    ->select('archive_files.*', 'divisions.div_name')
                     ->orderBy($request->session()->get('field'), $request->session()->get('sort'))
                     ->paginate(10);
-            }else{
-                //sort using category
-                $archiveFiles = $archiveFiles
-                    ->join('categories', 'archive_files.category_id', '=', 'categories.id')
-                    ->join('divisions', 'categories.division_id', '=', 'divisions.id')
-                    ->where('categories.division_id', '=', $request->session()->get('division'))
-                    ->where('archive_files.category_id', '=', $request->session()->get('category'))
-                    ->when($isShowAll == false, function ($query) use ($searchIds){
-                        $query->whereIn('archive_files.id', $searchIds);
-                    })
-                    ->select('archive_files.*', 'categories.name', 'divisions.div_name')
-                    ->orderBy($request->session()->get('field'), $request->session()->get('sort'))
-                    ->paginate(10);
+            }
+
+            $division = $request->session()->get('division');
+
+            if($request->ajax()){
+                return view('index')->with('archiveFiles', $archiveFiles)->with('division', $division);
+            }
+            return view('ajax')->with('archiveFiles', $archiveFiles)->with('division', $division);
+    }
+
+    public function viewFiles(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'addFileUpload' => 'file|required|mimes:pdf',
+            'addFileUpload.*' => 'file|required|mimes:pdf',
+            'addDate' => 'required',
+        ]);
+
+        $date = $request->input('addDate');
+
+        if($request->hasFile('addFileUpload')){
+            
+            Filesystem::cleanDirectory(storage_path('app/public/temp'));
+
+            foreach($request->file('addFileUpload') as $file)
+            {
+                $fileNameToStore = $file->getClientOriginalName();
+                $path = $request->file('addFileUpload')->storeAs('public/temp', $fileNameToStore); 
+                $data[] = array('file_name' => $fileNameToStore, 'date' => $date);  
             }
         }
 
-            $division = $request->session()->get('division');
-            $category = $request->session()->get('category');
-            //$test = $request->test; same as $request->get('test')
+        $passData = $data;
 
-            if($request->ajax()){
-                return view('index')->with('archiveFiles', $archiveFiles)->with('division', $division)->with('category', $category);
-            }
-            return view('ajax')->with('archiveFiles', $archiveFiles)->with('division', $division)->with('category', $category);
+        return view('view_files')->with('passData', $passData);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'addFileUpload' => 'file|required|mimes:pdf',
-            'addDivision' => 'required',
-            'addCategory' => 'required',
+            'addFileUpload.*' => 'file|required|mimes:pdf',
             'addDate' => 'required',
         ]);
 
@@ -121,7 +122,7 @@ class PostsController extends Controller
 
         //Create new Data 
         $archiveFiles = new ArchiveFile();
-        $archiveFiles->category_id = $request->input('addCategory');
+        $archiveFiles->division_id = $request->input('addDivision');
         $archiveFiles->date = $request->input('addDate');
  
         //Handle File Upload

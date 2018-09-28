@@ -13,35 +13,15 @@
                     <form id="addFileForm" method="POST" action="/store" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="addFileName">File Name:</label>
-                            <input type="text" class="form-control" id="addFileName" name="addFileName">
-                            <span id="error-addFileName" class="invalid-feedback"></span>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="addFileUpload">Upload File: </label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input <?php $errors->has('addFileUpload') ? "is-invalid": ""?>" id="addFileUpload" name="addFileUpload">
-                                <label class="custom-file-label form-control-file" for="addFileUpload">Choose file</label>
-                                <span id="error-addFileUpload" class="invalid-feedback"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="addDivision">Select Division:</label>
-                            <select class="form-control" id="addDivision" name="addDivision">
-                                <option value="0">--Select Here--</option>
-                                <!--ajax options-->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="addCategory">Select Category:</label>
-                            <select class="form-control" id="addCategory" name="addCategory" disabled>
-                                <!--ajax options-->
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label class="control-label" for="addDate">Date Received: <small>mm/dd/yyyy</small></label>
                             <input class="form-control <?php $errors->has('addDate') ? "is-invalid": ""?>" type="date" name="addDate" id="addDate" autofocus>
                             <span id="error-addDate" class="invalid-feedback"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="addFileUpload">Upload File: </label>
+                            <input type="file" class="form-control-file <?php $errors->has('addFileUpload') ? "is-invalid": ""?>" id="addFileUpload" name="addFileUpload" multiple onchange="javascript:updateList()">
+                            <span id="error-addFileUpload" class="invalid-feedback"></span>
+                            <div id="fileList"></div>
                         </div>
                     </form>
                 </div>
@@ -54,22 +34,15 @@
     </div>
 </div>
 <script>
-    
     document.getElementById("addDate").valueAsDate = new Date();
 
-    $('#addFilebtn').on('click', function(){
-        $('#addDivision').val(0).trigger('change');
-    });
-
-    $('#addDivision').change(function() { 
-        if($('#addDivision').val() == 0){
-            $('#addCategory').attr('disabled', true);
-            $('#addCategory').find('option').remove();
-        }else{
-            var div_id = $('#addDivision').val();
-            url = "/category/"+div_id;
-            ajaxCategoryGenerate(url);
-            $('#addCategory').removeAttr('disabled');
+    updateList = function() {
+        var input = document.getElementById('addFileUpload');
+        output = '<ul>';
+        for (var i = 0; i < input.files.length; ++i) {
+            output += '<li>' + input.files.item(i).name + '</li>';
         }
-    });
+        output += '</ul>';
+        $('#fileList').html(output);
+    }
 </script>
