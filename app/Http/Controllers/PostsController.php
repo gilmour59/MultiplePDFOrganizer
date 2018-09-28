@@ -91,18 +91,26 @@ class PostsController extends Controller
 
         if($request->hasFile('addFileUpload')){
             
-            Filesystem::cleanDirectory(storage_path('app/public/temp'));
+            $cleaner = new Filesystem();
+            $cleaner->cleanDirectory(storage_path('app/public/temp'));
 
             foreach($request->file('addFileUpload') as $file)
             {
                 $fileNameToStore = $file->getClientOriginalName();
-                $path = $request->file('addFileUpload')->storeAs('public/temp', $fileNameToStore); 
-                $data[] = array('file_name' => $fileNameToStore, 'date' => $date);  
+                $path = $file->storeAs('public/temp', $fileNameToStore); 
+
+                $parser = new Parser();
+                if($pdf = $parser->parseFile(storage_path('/app/') . $path)){
+                    //IF FAIL - 'content cannot be parsed'
+                    $text = $pdf->getText();
+                }else{
+                    alert('Parsing Error');
+                    return view('index');
+                }
+                $data[] = array('file_name' => $fileNameToStore, 'date' => $date, 'content' => $text);  
             }
+            $passData = $data;
         }
-
-        $passData = $data;
-
         return view('view_files')->with('passData', $passData);
     }
 

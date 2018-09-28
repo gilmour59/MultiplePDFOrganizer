@@ -3,7 +3,7 @@
         ajaxLoad($(this).attr('href'));
     });
 
-    $(document).on('submit', '#addFileForm', function(event) {
+    /* $(document).on('submit', '#addFileForm', function(event) {
         event.preventDefault();
 
         $('.loading').show();
@@ -41,14 +41,12 @@
                     //Modal Bug Fix
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
-
-                    ajaxLoad(data.redirect_url);
                 } 
             }
         });
         //$('.loading').hide();
         return false;
-    }); 
+    });  */
 
     $(document).on('submit', '#editFileForm', function(event) {
         event.preventDefault();

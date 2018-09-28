@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <form id="addFileForm" method="POST" action="/store" enctype="multipart/form-data">
+                    <form id="addFileForm" method="POST" action="/view_files" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label class="control-label" for="addDate">Date Received: <small>mm/dd/yyyy</small></label>
@@ -19,7 +19,7 @@
                         </div>
                         <div class="form-group">
                             <label for="addFileUpload">Upload File: </label>
-                            <input type="file" class="form-control-file <?php $errors->has('addFileUpload') ? "is-invalid": ""?>" id="addFileUpload" name="addFileUpload" multiple onchange="javascript:updateList()">
+                            <input type="file" class="form-control-file <?php $errors->has('addFileUpload') ? "is-invalid": ""?>" id="addFileUpload" name="addFileUpload[]" multiple="multiple" onchange="javascript:updateList()">
                             <span id="error-addFileUpload" class="invalid-feedback"></span>
                             <div id="fileList"></div>
                         </div>
@@ -36,7 +36,7 @@
 <script>
     document.getElementById("addDate").valueAsDate = new Date();
 
-    updateList = function() {
+    function updateList() {
         var input = document.getElementById('addFileUpload');
         output = '<ul>';
         for (var i = 0; i < input.files.length; ++i) {
@@ -45,4 +45,5 @@
         output += '</ul>';
         $('#fileList').html(output);
     }
+    
 </script>
