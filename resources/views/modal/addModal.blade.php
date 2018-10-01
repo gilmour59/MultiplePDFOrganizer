@@ -59,4 +59,10 @@
         $('#fileList').html(output);
     }
 
+    $('#addFilebtn').click(function(){
+        $('#addFileForm')[0].reset();
+        document.getElementById("addDate").valueAsDate = new Date();
+        updateList();
+    });
+
 </script>
