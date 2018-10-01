@@ -82,6 +82,7 @@ class PostsController extends Controller
     public function viewFiles(Request $request){
         
         $validator = Validator::make($request->all(), [
+            'addFileUpload' => 'required',
             'addFileUpload.*' => 'file|required|mimes:pdf',
             'addDate' => 'required',
         ]); 

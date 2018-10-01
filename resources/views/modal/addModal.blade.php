@@ -29,13 +29,11 @@
                         @csrf
                         <div class="form-group">
                             <label class="control-label" for="addDate">Date Received: <small>mm/dd/yyyy</small></label>
-                            <input class="form-control <?php $errors->has('addDate') ? "is-invalid": ""?>" type="date" name="addDate" id="addDate" autofocus>
-                            <span id="error-addDate" class="invalid-feedback"></span>
+                            <input class="form-control" type="date" name="addDate" id="addDate" autofocus>
                         </div>
                         <div class="form-group">
                             <label for="addFileUpload">Upload File: </label>
-                            <input type="file" class="form-control-file <?php $errors->has('addFileUpload') ? "is-invalid": ""?>" id="addFileUpload" name="addFileUpload[]" multiple="multiple" onchange="javascript:updateList()">
-                            <span id="error-addFileUpload" class="invalid-feedback"></span>
+                            <input type="file" class="form-control-file" id="addFileUpload" name="addFileUpload[]" multiple="multiple" onchange="javascript:updateList()">
                             <div id="fileList"></div>
                         </div>
                     </form>
