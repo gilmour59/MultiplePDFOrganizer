@@ -63,6 +63,7 @@
             success: function(data){
                 $('.is-invalid').removeClass('is-invalid');
                 if (data.fail) {
+                    $('.loading').hide();
                     if(data.errors){
                         for (control in data.errors) {
                             $('#' + control).addClass('is-invalid');

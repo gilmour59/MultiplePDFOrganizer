@@ -94,8 +94,6 @@ class PostsController extends Controller
             return redirect('/')->with('isAdd', $isAdd)->with('errors', $errors);
         }
 
-        dd($request->addFileUpload);
-
         $date = $request->input('addDate');
 
         if($request->hasFile('addFileUpload')){
