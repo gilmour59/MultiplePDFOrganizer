@@ -90,7 +90,12 @@
         Division = {{$division}};
 
         ajaxDivisionGenerateForSearch('/division', Division);
-        ajaxLoad('/');
+        //ajaxLoad('/');
+        @if (count($errors) > 0)
+            @if (session('isAdd'))
+                $('#addFileModal').modal('show');
+            @endif
+        @endif
     });
 
     $('#division').change(function() { 

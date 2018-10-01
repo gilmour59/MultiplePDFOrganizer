@@ -3,7 +3,7 @@
         ajaxLoad($(this).attr('href'));
     });
 
-    /* $(document).on('submit', '#addFileForm', function(event) {
+/*     $(document).on('submit', '#addFileForm', function(event) {
         event.preventDefault();
 
         $('.loading').show();
@@ -34,14 +34,7 @@
                     }else if(data.errorParse){
                         alert(data.errorParse);
                     }
-                } else {
-                    $('#addFile').modal('hide');
-                    $("#addFileForm")[0].reset();
-                    
-                    //Modal Bug Fix
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                } 
+                }  
             }
         });
         //$('.loading').hide();

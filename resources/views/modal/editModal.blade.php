@@ -1,5 +1,5 @@
 <!-- Modal Edit-->
-<div class="modal fade" id="editFile" tabindex="-1" role="dialog" aria-labelledby="FileEditTitle" aria-hidden="true">
+<div class="modal fade" id="editFileModal" tabindex="-1" role="dialog" aria-labelledby="FileEditTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

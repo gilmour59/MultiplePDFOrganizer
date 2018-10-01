@@ -80,12 +80,20 @@ class PostsController extends Controller
     }
 
     public function viewFiles(Request $request){
-
+        
         $validator = Validator::make($request->all(), [
-            'addFileUpload' => 'file|required|mimes:pdf',
             'addFileUpload.*' => 'file|required|mimes:pdf',
             'addDate' => 'required',
-        ]);
+        ]); 
+
+        if ($validator->fails())
+        {
+            $isAdd = true;
+            $errors = $validator->errors();
+            return redirect('/')->with('isAdd', $isAdd)->with('errors', $errors);
+        }
+
+        dd($request->addFileUpload);
 
         $date = $request->input('addDate');
 

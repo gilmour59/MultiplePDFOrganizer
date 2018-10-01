@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="addFile" tabindex="-1" role="dialog" aria-labelledby="FileTitle" aria-hidden="true">
+<div class="modal fade" id="addFileModal" tabindex="-1" role="dialog" aria-labelledby="FileTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,6 +10,21 @@
             </div>
             <div class="modal-body">
                 <div class="container">
+                    @if (count($errors) > 0)
+                        @foreach ($errors->all() as $error) <!--all() because the object has arrays as values-->
+                            <div class="alert alert-danger">
+                                {{$error}} <!-- Errors from validations (not sessions) -->
+                            </div>
+                        @endforeach
+
+                        <script>
+                            setTimeout(function() {
+                                $(".alert").fadeTo(200, 0).slideUp(200, function(){
+                                    $(this).remove(); 
+                                });
+                            }, 2000);
+                        </script>
+                    @endif
                     <form id="addFileForm" method="POST" action="/view_files" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
@@ -45,5 +60,5 @@
         output += '</ul>';
         $('#fileList').html(output);
     }
-    
+
 </script>

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<?php dd($passData) ?>
+    <?php 
+        dd($passData); 
+    ?>
 @endsection

@@ -1,12 +1,11 @@
 
-        
         <div class="row">
             <div class="col-sm-6 align-self-end" style="text-align:left;">
                 <h6>Total Data: <span id="total_records"></span></h6>
             </div>
             <div class="col-sm-6 pb-1 align-self-end"  style="text-align:right;">
                 <!-- Button trigger modal -->
-                <button id="addFilebtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFile">
+                <button id="addFilebtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFileModal">
                     Add
                 </button>
             </div>
@@ -49,7 +48,7 @@
                         <td class="align-middle">{{ $row->file_name }}</td>
                         <td style="text-align:left">{{ str_limit($row->content, 100) }}</td>
                         <td class="align-middle"> <a style="font-size:12px" href="{{route('view', ['id' => $row->id])}}" target="_blank" class="btn btn-success">View</a> </td>
-                        <td class="align-middle"> <button style="font-size:12px" type="button" class="btn btn-info" data-toggle="modal" data-target="#editFile" onclick="ajaxEdit('{{ route('edit', ['id' => $row->id]) }}')">Edit</button> </td>
+                        <td class="align-middle"> <button style="font-size:12px" type="button" class="btn btn-info" data-toggle="modal" data-target="#editFileModal" onclick="ajaxEdit('{{ route('edit', ['id' => $row->id]) }}')">Edit</button> </td>
                         <td class="align-middle"> 
                             <input type="hidden" name="_method" value="delete"/>
                             <a style="font-size:12px" href="javascript:if(confirm('Are you sure want to delete?')) ajaxDelete('{{ route('destroy', ['id' => $row->id]) }}','{{csrf_token()}}')" class="btn btn-danger">X</a>
