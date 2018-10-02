@@ -6,6 +6,9 @@
             <thead>
                 <tr>
                     <th width="1%">
+                        ID: 
+                    </th>
+                    <th width="1%">
                         File Name: 
                     </th>
                     <th width="1%">
@@ -17,8 +20,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($passData as $row)
+                {{dd($passData)}}
+                @foreach ($passData as $key => $row)
                 <tr>
+                    <td class="align-middle">{{ $key }}</td>
                     <td class="align-middle">{{ $row['file_name'] }}</td>
                     <td class="align-middle">{{ $row['date'] }}</td>
                     <td style="text-align:left">{{ str_limit($row['content'], 100) }}</td>

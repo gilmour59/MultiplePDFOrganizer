@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('/test/{text}/{keyword}', 'PostsController@checkKeywords');
+
 Route::get('/', 'PostsController@index')->name('index');
 Route::post('/store', 'PostsController@store')->name('store');
 Route::post('/view_files', 'PostsController@viewFiles')->name('view_files');
@@ -29,5 +31,3 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'AdminController@index')->name('admin');
 Route::get('/admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
 Route::post('/admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-
-Route::get('/test', 'pdfParserController@index');

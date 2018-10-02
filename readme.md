@@ -29,6 +29,3 @@ https://laravel-news.com/tntsearch-with-laravel-scout
 7. if not save. return to index...
 
 IF NEW INSTANCE OF ADD IS BEING COMMITED THEN CLEAN THE TEMP DIRECTORY using cleanDirectory method in Filesystem Facade.
-
-@@@@Create Table in database for temporary data.
-@@@@From index. upload files, send data of files to temp table in database; view_files page can add, edit, and delete the values; If done then Save all to Main Table.

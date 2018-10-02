@@ -110,15 +110,48 @@ class PostsController extends Controller
                 if($pdf = $parser->parseFile(storage_path('/app/') . $path)){
                     //IF FAIL - 'content cannot be parsed'
                     $text = $pdf->getText();
+
+                    $key_div = $this->checkKeywords($text);
                 }else{
                     alert('Parsing Error');
                     return view('index');
                 }
-                $data[] = array('file_name' => $fileNameToStore, 'date' => $date, 'content' => $text);  
+                $data[] = array('file_name' => $fileNameToStore, 'date' => $date, 'content' => $text, 'key_div' => $key_div);  
             }
             $passData = $data;
         }
         return view('view_files')->with('passData', $passData);
+    }
+
+    public function checkKeywords($text){
+
+        $divisions = Division::select('div_name')->get();
+
+        $Keywords = array();
+        
+        foreach($divisions->toArray() as $key => $value){
+            $Keywords[$key + 1] = $value['div_name'];
+        }
+        //dd($Keywords);
+        $textWithKeyword = array();
+
+        //key is integer for the division
+        foreach($Keywords as $key => $value){
+            $posKeyword = stripos($text, $value);
+            if($posKeyword !== false){
+                $textWithKeyword[$key - 1] = $posKeyword;
+            }else{
+                $textWithKeyword[$key - 1] = $posKeyword;
+            }
+        }    
+
+        //This returns the key of the division containing the keyword
+        if($wordDivision = array_search(min($textWithKeyword), $textWithKeyword)){
+            //Returns the key of the division
+            return $wordDivision;
+        }else{
+            return 0;
+        }
     }
 
     public function store(Request $request)
@@ -277,15 +310,6 @@ class PostsController extends Controller
 
         return response()->json([
             'divisions' => $divisions,
-        ]);
-    }
-
-    public function category($div_id)
-    {
-        $categories = Category::where('division_id', '=', $div_id)->get();
-        
-        return response()->json([
-            'categories' => $categories,
         ]);
     }
 
