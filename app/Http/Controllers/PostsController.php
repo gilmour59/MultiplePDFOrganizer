@@ -139,18 +139,23 @@ class PostsController extends Controller
         foreach($Keywords as $key => $value){
             $posKeyword = stripos($text, $value);
             if($posKeyword !== false){
-                $textWithKeyword[$key - 1] = $posKeyword;
+                $textWithKeyword[$key] = $posKeyword;
             }else{
-                $textWithKeyword[$key - 1] = $posKeyword;
+                unset($textWithKeyword[$key]);
             }
         }    
 
-        //This returns the key of the division containing the keyword
-        if($wordDivision = array_search(min($textWithKeyword), $textWithKeyword)){
-            //Returns the key of the division
-            return $wordDivision;
-        }else{
+        //dd($textWithKeyword);
+
+        if(empty($textWithKeyword)){
             return 0;
+        }else{
+            //This returns the key of the division containing the keyword
+            $wordDivision = array_search(min($textWithKeyword), $textWithKeyword);
+
+            //Returns the key of the division
+            //dd($wordDivision);
+            return $wordDivision;
         }
     }
 
