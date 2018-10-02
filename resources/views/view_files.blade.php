@@ -26,27 +26,31 @@
                 <script>
                     var num = [];    
                 </script>
-                @foreach ($passData as $key => $row)
-                <tr>
-                    <script>
-                        var div = {{$key}}
-                        var key_div = <?php $row['key_div'] ?>
-                        num[div] = key_div;
-                    </script>
+                <form action="">
+                    @foreach ($passData as $key => $row)
+                    <tr>
+                        {{dd(count($passData))}}
+                        <script>
+                            var div = {{$key}}
+                            var key_div = <?php $row['key_div'] ?>
+                            num[div] = key_div;
+                        </script>
 
-                    <td class="align-middle">{{ $key }}</td>
-                    <td class="align-middle">{{ $row['file_name'] }}</td>
-                    <td class="align-middle">
-                        <input class="form-control" type="date" name="addDate[]" id="addDate" value="{{ $row['date'] }}">
-                    </td>
-                    <td style="text-align:left">{{ str_limit($row['content'], 100) }}</td>
-                    <td class="align-middle">
-                        <select class="form-control col-sm-10" id="divisionViewFiles{{ $key }}" name="divisionViewFiles[]">
-                            <!-- ajax generate -->
-                        </select>
-                    </td>
-                </tr>
-                @endforeach
+                        <td class="align-middle">{{ $key }}</td>
+                        <td class="align-middle">{{ $row['file_name'] }}</td>
+                        <td class="align-middle">
+                            <input class="form-control" type="date" name="addDate[]" id="addDate" value="{{ $row['date'] }}">
+                        </td>
+                        <td style="text-align:left">{{ str_limit($row['content'], 100) }}</td>
+                        <td class="align-middle">
+                            <select class="form-control col-sm-10" id="divisionViewFiles{{ $key }}" name="divisionViewFiles{{ $key }}">
+                                <!-- ajax generate -->
+                            </select>
+                        </td>
+                    </tr>
+                    ADD HIDDEN DATA HERE TO SEND. AND JUST LOOP USING THE DATA OF COUNT($PASSDATA) IN CONTROLLER!
+                    @endforeach
+                </form>
             </tbody>
         </table>
     </div>
