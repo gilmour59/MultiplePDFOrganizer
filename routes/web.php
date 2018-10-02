@@ -10,9 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/test/{text}/{keyword}', 'PostsController@checkKeywords');
-
 Route::get('/', 'PostsController@index')->name('index');
 Route::post('/store', 'PostsController@store')->name('store');
 Route::post('/view_files', 'PostsController@viewFiles')->name('view_files');

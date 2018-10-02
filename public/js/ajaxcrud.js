@@ -165,6 +165,31 @@
         });
     }
 
+    function ajaxDivisionGenerateForViewFiles(filename, number) {
+        $('.loading').show();
+        $.ajax({
+            type: 'GET',
+            url: filename,
+            success: function (data) {
+                var division = '';
+                
+                for(var i = 0; i < data.divisions.length; i++){
+                    var dataDiv = data.divisions[i].div_name;
+                    division += "<option value='"+ (i + 1) +"'>"+ dataDiv +"</option>";
+                }
+
+                for(var i = 0; i < number.length; i++){
+                    $('#divisionViewFiles'+i).append(division);
+                    console.log(number[i]);
+                }
+                $('.loading').hide();
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+
     function ajaxEdit(filename) {
         $('.loading').show();
         $.ajax({
