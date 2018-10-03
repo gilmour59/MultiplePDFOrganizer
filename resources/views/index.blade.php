@@ -34,6 +34,11 @@
                                 Content{{request()->session()->get('field')=='content'?(request()->session()->get('sort')=='asc'?'▴':'▾'):''}}
                             </a>
                         </th>
+                        <th width="1%">
+                            <a href="javascript:ajaxLoad('{{url('/?field=division&sort='.(request()->session()->get('sort')=='asc'?'desc':'asc'))}}')">
+                                Division{{request()->session()->get('field')=='division'?(request()->session()->get('sort')=='asc'?'▴':'▾'):''}}
+                            </a>
+                        </th>
                         <th width="1%"></th>
                         <th width="1%"></th>
                         <th width="1%"></th>
@@ -46,6 +51,8 @@
                         <td class="align-middle">{{ $row->date }}</td>
                         <td class="align-middle">{{ $row->file_name }}</td>
                         <td style="text-align:left">{{ str_limit($row->content, 100) }}</td>
+                        <!-- [$row->division_id - 1] because it was converted to an array and was reindexed -->
+                        <td class="align-middle">{{ $division_name[$row->division_id - 1]['div_name'] }}</td>
                         <td class="align-middle"> <a style="font-size:12px" href="{{route('view', ['id' => $row->id])}}" target="_blank" class="btn btn-success">View</a> </td>
                         <td class="align-middle"> <button style="font-size:12px" type="button" class="btn btn-info" data-toggle="modal" data-target="#editFileModal" onclick="ajaxEdit('{{ route('edit', ['id' => $row->id]) }}')">Edit</button> </td>
                         <td class="align-middle"> 

@@ -73,10 +73,12 @@ class PostsController extends Controller
 
             $division = $request->session()->get('division');
 
+            $division_name = Division::get()->toArray();
+
             if($request->ajax()){
-                return view('index')->with('archiveFiles', $archiveFiles)->with('division', $division);
+                return view('index')->with('archiveFiles', $archiveFiles)->with('division', $division)->with('division_name', $division_name);
             }
-            return view('ajax')->with('archiveFiles', $archiveFiles)->with('division', $division);
+            return view('ajax')->with('archiveFiles', $archiveFiles)->with('division', $division)->with('division_name', $division_name);
     }
 
     public function store(Request $request)
@@ -91,11 +93,12 @@ class PostsController extends Controller
             //dd($value);
             $archiveFiles = new ArchiveFile();
             
-            $archiveFiles->division_id = $value['key_div'];
-            $archiveFiles->date = $value['date'];
+            $archiveFiles->division_id = $request->input('saveDivision' . $key);
+            //$archiveFiles->date = $value['date'];
+            $archiveFiles->date = $request->input('saveDate' . $key);
             $archiveFiles->content = $value['content'];
 
-            $division = Division::find($value['key_div']);
+            $division = Division::find($request->input('saveDivision' . $key));
 
             $archiveFiles->file_name = $value['file_name'];
             $FileSys = new Filesystem();
@@ -106,11 +109,11 @@ class PostsController extends Controller
                 $archiveFiles->file = $file;
 
                 $archiveFiles->save(); 
-                return redirect()->route('index')->with('success', 'Saved!');
             }else{
                 return redirect()->route('index')->with('error', 'Error in Saving!');
             }
         }
+        return redirect()->route('index')->with('success', 'Saved!');
     }
 
     public function update(Request $request, $id)
