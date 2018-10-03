@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class='text-center float-right'>
+        @if (!empty($passData))
+        <button type="submit" form="saveFileForm" class="btn btn-primary" value="Submit">Save</button>
+        @else
+        <a class="btn btn-primary" href="{{route('index')}}">Go Back</a>
+        @endif
+    </div>
     <div class="table-responsive" style="font-size:14px">
         <table class="table table-striped table-bordered text-center">
             <thead>
@@ -62,13 +69,6 @@
                 </tbody>
             </form>
         </table>  
-        <div class='text-center'>
-            @if (!empty($passData))
-            <button type="submit" form="saveFileForm" class="btn btn-primary" value="Submit">Save</button>
-            @else
-            <a class="btn btn-primary" href="{{route('index')}}">Go Back</a>
-            @endif
-        </div>
     </div>
 @endsection
 
