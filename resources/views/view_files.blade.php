@@ -17,42 +17,52 @@
                     <th width="15%">
                         Content
                     </th>
-                    <th width="7%">
+                    <th width="10%">
                         Division
+                    </th>
+                    <th width="1%">
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                <script>
-                    var num = [];    
-                </script>
-                <form action="">
-                    @foreach ($passData as $key => $row)
-                    <tr>
-                        {{dd(count($passData))}}
-                        <script>
-                            var div = {{$key}}
-                            var key_div = <?php $row['key_div'] ?>
-                            num[div] = key_div;
-                        </script>
+            <form action="/save" method="POST" id="saveFileForm">
+                <tbody>
+                    <script>
+                        var num = [];    
+                    </script>
+                        @foreach ($passData as $key => $row)
+                        <tr>
+                            <script>
+                                var div = {{$key}}
+                                var key_div = {{$row['key_div']}}
+                                num[div] = key_div;
+                                console.log(key_div);
+                            </script>
 
-                        <td class="align-middle">{{ $key }}</td>
-                        <td class="align-middle">{{ $row['file_name'] }}</td>
-                        <td class="align-middle">
-                            <input class="form-control" type="date" name="addDate[]" id="addDate" value="{{ $row['date'] }}">
-                        </td>
-                        <td style="text-align:left">{{ str_limit($row['content'], 100) }}</td>
-                        <td class="align-middle">
-                            <select class="form-control col-sm-10" id="divisionViewFiles{{ $key }}" name="divisionViewFiles{{ $key }}">
-                                <!-- ajax generate -->
-                            </select>
-                        </td>
-                    </tr>
-                    ADD HIDDEN DATA HERE TO SEND. AND JUST LOOP USING THE DATA OF COUNT($PASSDATA) IN CONTROLLER!
-                    @endforeach
-                </form>
-            </tbody>
-        </table>
+                            <td class="align-middle">{{ $key }}</td>
+                            <td class="align-middle">{{ $row['file_name'] }}</td>
+                            <td class="align-middle">
+                                <input class="form-control" type="date" name="saveDate{{ $key }}" id="saveDate{{ $key }}" value="{{ $row['date'] }}">
+                            </td>
+                            <td style="text-align:left">{{ str_limit($row['content'], 100) }}</td>
+                            <td class="align-middle">
+                                <select class="form-control col-sm-10" id="saveDivision{{ $key }}" name="saveDivision{{ $key }}">
+                                    <!-- ajax generate -->
+                                </select>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-danger" id="delete{{ $key }}" name="delete{{ $key }}" onclick='location.href="?delete={{ $key }}"'>x</button>
+                            </td>
+                        </tr>
+                        <input type="hidden" name="saveId{{ $key }}" id="saveId{{ $key }}" value="{{ $key }}">
+                        <input type="hidden" name="saveFileName{{ $key }}" id="saveFileName{{ $key }}" value="{{ $row['file_name'] }}">
+                        <input type="hidden" name="saveContent{{ $key }}" id="saveContent{{ $key }}" value="{{ $row['content'] }}">
+                        @endforeach
+                        ADD HIDDEN DATA HERE TO SEND. AND JUST LOOP USING THE DATA OF COUNT($PASSDATA) IN CONTROLLER!
+                        Loop it in controller to get the array.
+                </tbody>
+            </form>
+        </table>  
+        <button type="submit" form="saveFileForm" class="btn btn-primary" value="Submit">Save</button>
     </div>
 @endsection
 

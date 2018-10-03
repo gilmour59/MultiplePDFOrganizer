@@ -172,14 +172,15 @@
             url: filename,
             success: function (data) {
                 var division = '';
-                
+                division += "<option value=0>Can't Detect Division</option>";
                 for(var i = 0; i < data.divisions.length; i++){
                     var dataDiv = data.divisions[i].div_name;
                     division += "<option value='"+ (i + 1) +"'>"+ dataDiv +"</option>";
                 }
 
                 for(var i = 0; i < number.length; i++){
-                    $('#divisionViewFiles'+i).append(division);
+                    $('#saveDivision'+i).append(division);
+                    $('#saveDivision'+i).val(number[i]);
                     console.log(number[i]);
                 }
                 $('.loading').hide();

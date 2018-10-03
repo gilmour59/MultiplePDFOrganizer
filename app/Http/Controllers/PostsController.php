@@ -119,7 +119,21 @@ class PostsController extends Controller
                 $data[] = array('file_name' => $fileNameToStore, 'date' => $date, 'content' => $text, 'key_div' => $key_div);  
             }
             $passData = $data;
+            $request->session()->put('passData', $passData);
         }
+        return view('view_files')->with('passData', $passData);
+    }
+
+    public function deleteViewFile(Request $request){
+
+        $passData = $request->session()->get('passData');
+        $id = $request->get('delete');
+        unset($passData[$id]);
+
+        $request->session()->put('passData', $passData);
+        
+        //dd($passData);
+
         return view('view_files')->with('passData', $passData);
     }
 
