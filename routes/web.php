@@ -11,6 +11,7 @@
 |
 */
 Route::get('/view_files', 'PostsController@deleteViewFile');
+
 Route::get('/', 'PostsController@index')->name('index');
 Route::post('/store', 'PostsController@store')->name('store');
 Route::post('/view_files', 'PostsController@viewFiles')->name('view_files');

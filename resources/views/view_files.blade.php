@@ -62,7 +62,13 @@
                 </tbody>
             </form>
         </table>  
-        <button type="submit" form="saveFileForm" class="btn btn-primary" value="Submit">Save</button>
+        <div class='text-center'>
+            @if (!empty($passData))
+            <button type="submit" form="saveFileForm" class="btn btn-primary" value="Submit">Save</button>
+            @else
+            <a class="btn btn-primary" href="{{route('index')}}">Go Back</a>
+            @endif
+        </div>
     </div>
 @endsection
 
