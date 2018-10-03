@@ -31,7 +31,8 @@
                     </th>
                 </tr>
             </thead>
-            <form action="/save" method="POST" id="saveFileForm">
+            <form action="/store" method="POST" id="saveFileForm">
+                @csrf
                 <tbody>
                     <script>
                         var num = [];    
@@ -64,8 +65,9 @@
                         <input type="hidden" name="saveFileName{{ $key }}" id="saveFileName{{ $key }}" value="{{ $row['file_name'] }}">
                         <input type="hidden" name="saveContent{{ $key }}" id="saveContent{{ $key }}" value="{{ $row['content'] }}">
                         @endforeach
-                        ADD HIDDEN DATA HERE TO SEND. AND JUST LOOP USING THE DATA OF COUNT($PASSDATA) IN CONTROLLER!
-                        Loop it in controller to get the array.
+                        <script>
+                            console.log(num);    
+                        </script>
                 </tbody>
             </form>
         </table>  

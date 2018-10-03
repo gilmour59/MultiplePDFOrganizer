@@ -81,64 +81,36 @@ class PostsController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'addFileUpload' => 'file|required|mimes:pdf',
-            'addFileUpload.*' => 'file|required|mimes:pdf',
-            'addDate' => 'required',
-        ]);
+        //dd($request->session()->get('passData'));
+        //dd($request->all());
 
-        if ($validator->fails())
-            return response()->json([
-            'fail' =>true,
-            'errors' => $validator->errors()
-            ]);
+        //Loop Create new Data
+        $passedData = $request->session()->get('passData');
+        foreach($passedData as $key => $value){
+            //dd($key . ' + ' . $value['file_name']);
+            //dd($value);
+            $archiveFiles = new ArchiveFile();
+            
+            $archiveFiles->division_id = $value['key_div'];
+            $archiveFiles->date = $value['date'];
+            $archiveFiles->content = $value['content'];
 
-        //Create new Data 
-        $archiveFiles = new ArchiveFile();
-        $archiveFiles->division_id = $request->input('addDivision');
-        $archiveFiles->date = $request->input('addDate');
- 
-        //Handle File Upload
-        if ($request->hasFile('addFileUpload')) {
+            $division = Division::find($value['key_div']);
 
-            //get File Name
-            //$fileNameWithExtension = $request->file('addFileUpload')->getClientOriginalName();
-            $extension = $request->file('addFileUpload')->getClientOriginalExtension();
-            $fileNameToStore = time() . '' . $request->input('addFileName') . '.'. $extension;
+            $archiveFiles->file_name = $value['file_name'];
+            $FileSys = new Filesystem();
+            if($FileSys->exists(storage_path('app/public/temp/') . $value['file_name'])){
+                $file = time() . '' . $value['file_name'];
+                //dd($file);
+                Storage::move('public/temp/' .  $value['file_name'], 'public/' . $division->div_name . '/' . $file);
+                $archiveFiles->file = $file;
 
-            //Find Category name
-            $category = Category::find($archiveFiles->category_id);
-            $division = Division::find($category->division_id);
-
-            //Storage::makeDirectory($directory);
-            //Move file to it's category name
-
-            //THIS OVERWRITES FILES WITH SAME NAME
-            $path = $request->file('addFileUpload')->storeAs('public/' . $division->div_name . '/' . $category->name, $fileNameToStore);
-
-            //Parse pdf
-            $parser = new Parser();
-            if($pdf = $parser->parseFile(storage_path('/app/') . $path)){
-                //IF FAIL - 'content cannot be parsed'
-                $text = $pdf->getText();
-                $archiveFiles->content = $text; 
+                $archiveFiles->save(); 
+                return redirect()->route('index')->with('success', 'Saved!');
             }else{
-                return response()->json([
-                    'fail' => true,
-                    'errorParse' => 'File Parse Error!'
-                ]);
+                return redirect()->route('index')->with('error', 'Error in Saving!');
             }
-        }else{
-            $fileNameToStore = null;
         }
-        $archiveFiles->file_name = $request->input('addFileName');
-        $archiveFiles->file = $fileNameToStore;
-        $archiveFiles->save();
-        
-        return response()->json([
-            'fail' => false,
-            'redirect_url' => route('index')
-        ]);
     }
 
     public function update(Request $request, $id)

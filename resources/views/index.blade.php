@@ -1,4 +1,3 @@
-
         <div class="row">
             <div class="col-sm-6 align-self-end" style="text-align:left;">
                 <h6>Total Data: <span id="total_records"></span></h6>

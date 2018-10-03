@@ -100,9 +100,9 @@ class ViewForSavingController extends Controller
         $passData = $request->session()->get('passData');
         $id = $request->get('delete');
         unset($passData[$id]);
-
+        //reindex the array
+        //$passData = array_values($passData); 
         $request->session()->put('passData', $passData);
-
         //dd($passData);
         return view('view_files')->with('passData', $passData);
     }

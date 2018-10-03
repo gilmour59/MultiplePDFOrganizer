@@ -80,6 +80,31 @@
             </nav>
 
             <main class="py-4">
+                @if (session('success'))
+                    <div id='successMsg' class='alert alert-success'>
+                        {{session('success')}}
+                    </div>
+                    <script>
+                        if($('#successMsg').length){
+                            setTimeout(function() {
+                                $('#successMsg').addClass('d-none');
+                            }, 2000)
+                        }
+                    </script>
+                @endif
+        
+                @if (session('error'))
+                    <div id='errorMsg' class='alert alert-danger'>
+                        {{session('error')}}
+                    </div>
+                    <script>
+                        if($('#errorMsg').length){
+                            setTimeout(function() {
+                                $('#errorMsg').addClass('d-none');
+                            }, 2000)
+                        }
+                    </script>
+                @endif
                 <div id="mainContainer" class="container p-0">
                     @yield('content')
                 </div>
