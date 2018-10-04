@@ -35,6 +35,6 @@ class checkForUndetectedTextContent implements Rule
      */
     public function message()
     {
-        return 'Please select the division of the Files!';
+        return ': Division not selected!';
     }
 }

@@ -30,7 +30,7 @@ class ViewForSavingController extends Controller
         {
             $isAdd = true;
             $errors = $validator->errors();
-            return redirect('/')->with('isAdd', $isAdd)->with('errors', $errors);
+            return redirect('/')->with('isAdd', $isAdd)->with('errors', $errors)->withInput();
         }
         $date = $request->input('addDate');
 

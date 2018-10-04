@@ -1,6 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
+
+    @if ($errors->any())
+        <div id="viewErrorMsg" class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $key => $error)
+                    <li>{{ 'ID ' . $key . ' ' . $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        <script>
+            setTimeout(function() {
+                $("#viewErrorMsg").fadeTo(200, 0).slideUp(200, function(){
+                    $(this).remove(); 
+                });
+            }, 2000);
+        </script>
+    @endif
+                
     <div class="row pb-1">
         <div class="offset-6 col-sm-4">
             <div class="row">

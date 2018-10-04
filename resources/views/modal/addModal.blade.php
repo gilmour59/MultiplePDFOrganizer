@@ -12,14 +12,13 @@
                 <div class="container">
                     @if (count($errors) > 0)
                         @foreach ($errors->all() as $error) <!--all() because the object has arrays as values-->
-                            <div class="alert alert-danger">
+                            <div id="addErrorMsg" class="alert alert-danger">
                                 {{$error}} <!-- Errors from validations (not sessions) -->
                             </div>
                         @endforeach
-
                         <script>
                             setTimeout(function() {
-                                $(".alert").fadeTo(200, 0).slideUp(200, function(){
+                                $("#addErrorMsg").fadeTo(200, 0).slideUp(200, function(){
                                     $(this).remove(); 
                                 });
                             }, 2000);
@@ -29,7 +28,7 @@
                         @csrf
                         <div class="form-group">
                             <label class="control-label" for="addDate">Date Received: <small>mm/dd/yyyy</small></label>
-                            <input class="form-control" type="date" name="addDate" id="addDate" autofocus>
+                            <input class="form-control" type="date" name="addDate" id="addDate" value="{{ old('addDate') }}" autofocus>
                         </div>
                         <div class="form-group">
                             <label for="addFileUpload">Upload File: </label>
@@ -47,8 +46,6 @@
     </div>
 </div>
 <script>
-    document.getElementById("addDate").valueAsDate = new Date();
-
     function updateList() {
         var input = document.getElementById('addFileUpload');
         output = '<ul>';

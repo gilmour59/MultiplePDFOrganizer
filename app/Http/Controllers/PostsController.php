@@ -87,21 +87,16 @@ class PostsController extends Controller
         //dd($request->session()->get('passData'));
         //dd($request->all());
 
-        //This works but need a work around to validate all the saveDivision{{key}}
-        $request->validate([
-            'saveDivision2' => ['required', new checkForUndetectedTextContent],
-        ]);
-
+        $passedData = $request->session()->get('passData');
+        
         $rule = array();
         foreach($passedData as $key => $value){
-            $div_key = $request->input('saveDivision' . $key);
+            $rule['saveDivision' . $key] = ['required', new checkForUndetectedTextContent];
         }
 
-
-        //CREATE THIS: if ($request->input('saveDivision' . $key) == 0) then return to index with error
+        $request->validate($rule);
 
         //Loop Create new Data
-        $passedData = $request->session()->get('passData');
         foreach($passedData as $key => $value){
             //dd($key . ' + ' . $value['file_name']);
             //dd($value);
