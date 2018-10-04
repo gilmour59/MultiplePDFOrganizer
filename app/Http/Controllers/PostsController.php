@@ -10,6 +10,7 @@ use App\ArchiveFile;
 use App\Division;
 use App\Category;
 use Smalot\PdfParser\Parser;
+use App\Rules\checkForUndetectedTextContent;
 
 class PostsController extends Controller
 {
@@ -85,6 +86,17 @@ class PostsController extends Controller
     {
         //dd($request->session()->get('passData'));
         //dd($request->all());
+
+        //This works but need a work around to validate all the saveDivision{{key}}
+        $request->validate([
+            'saveDivision2' => ['required', new checkForUndetectedTextContent],
+        ]);
+
+        $rule = array();
+        foreach($passedData as $key => $value){
+            $div_key = $request->input('saveDivision' . $key);
+        }
+
 
         //CREATE THIS: if ($request->input('saveDivision' . $key) == 0) then return to index with error
 
