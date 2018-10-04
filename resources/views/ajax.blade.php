@@ -83,12 +83,10 @@
 @endsection
 
 @section('js')
-  <script src="{{ asset('js/ajaxcrud.js') }}"></script>
-  <script>
-        $(document).ready(function(){
-
+<script src="{{ asset('js/ajaxcrud.js') }}"></script>
+<script>
+    $(document).ready(function(){
         Division = {{$division}};
-
         ajaxDivisionGenerateForSearch('/division', Division);
         //ajaxLoad('/');
         @if (count($errors) > 0)
@@ -98,28 +96,17 @@
         @endif
     });
 
-    $('#division').change(function() { 
-        if($('#division').val() == 0){
-            $('#category').attr('disabled', true);
-            $('#category').find('option').remove();
-            ajaxLoad('{{route('index')}}?division=0');
-            
-        }else{
-            var div_id = $('#division').val();
-            url = "/category/"+div_id;
-            ajaxLoad('{{route('index')}}?division='+div_id+'&category=0');
-            ajaxCategoryGenerateForSearch(url);
-            $('#category').removeAttr('disabled');
-        }
+    $('#refreshFile').click(function(){
+        $('#search').val('');
     });
 
-    $('#category').change(function() { 
-        if($('#category').val() == 0){
-            ajaxLoad('{{route('index')}}?category=0');
+    $('#division').change(function() { 
+        if($('#division').val() == 0){
+            ajaxLoad('{{route('index')}}?division=0');
         }else{
-            var cat_id = $('#category').val();
-            ajaxLoad('{{route('index')}}?category='+cat_id);
+            var div_id = $('#division').val();
+            ajaxLoad('{{route('index')}}?division='+div_id);
         }
     });
-  </script>
+</script>
 @endsection

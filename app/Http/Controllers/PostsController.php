@@ -31,7 +31,7 @@ class PostsController extends Controller
 
         $request->session()->put('field', $request
                 ->has('field') ? $request->get('field') : ($request->session()
-                ->has('field') ? $request->session()->get('field') : 'date'));
+                ->has('field') ? $request->session()->get('field') : 'id'));
 
         $request->session()->put('sort', $request
                 ->has('sort') ? $request->get('sort') : ($request->session()
@@ -94,7 +94,9 @@ class PostsController extends Controller
             $rule['saveDivision' . $key] = ['required', new checkForUndetectedTextContent];
         }
 
-        $request->validate($rule);
+        if(($request->input('saveAllDivision')) == 0){
+            $request->validate($rule);
+        }
 
         //Loop Create new Data
         foreach($passedData as $key => $value){
@@ -254,18 +256,16 @@ class PostsController extends Controller
     public function view($id)
     {
         $archiveFiles = ArchiveFile::find($id);
-        $category = Category::find($archiveFiles->category_id);
-        $division = Division::find($category->division_id);
+        $division = Division::find($archiveFiles->division_id);
 
-        return response()->file(storage_path('app/public/') . $division->div_name . '/' . $category->name . '/' . $archiveFiles->file);
+        return response()->file(storage_path('app/public/') . $division->div_name . '/' . $archiveFiles->file);
     }
 
     public function download($id)
     {
         $archiveFiles = ArchiveFile::find($id);
-        $category = Category::find($archiveFiles->category_id);
-        $division = Division::find($category->division_id);
+        $division = Division::find($archiveFiles->division_id);
 
-        return response()->download(storage_path('app/public/') . $division->div_name . '/' . $category->name . '/' . $archiveFiles->file);
+        return response()->download(storage_path('app/public/') . $division->div_name . '/' . $archiveFiles->file);
     }
 }

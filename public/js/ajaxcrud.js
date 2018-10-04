@@ -4,8 +4,8 @@
     });
 
     $(document).on('submit', '#editFileForm', function(event) {
+        
         event.preventDefault();
-
         $('.loading').show();
         var form = $(this);
         var data = new FormData(this);
@@ -94,7 +94,6 @@
                     var dataDiv = data.divisions[i].div_name;
                     division += "<option value='"+ (i + 1) +"'>"+ dataDiv +"</option>";
                 }
-                $('#addDivision').append(division);
                 $('#editDivision').append(division);
                 $('.loading').hide();
             },
@@ -164,12 +163,6 @@
             type: 'GET',
             url: filename,
             success: function (data) {
-                $('#editDivision').val(data.division).trigger('change');
-
-                //THIS ADDED ARGUMENT IS FOR EDIT ONLY
-                ajaxCategoryGenerate('category/'+data.division, data.category);
-                
-                console.log($('#editCategory').val());
                 $('#editFileName').val(data.file.file_name);
                 $('#editDate').val(data.file.date);
                 $('#editFileForm').attr('action', '/update/'+data.file.id);

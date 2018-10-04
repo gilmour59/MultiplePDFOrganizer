@@ -15,7 +15,7 @@
                     <tr>
                         <th width="1%">
                             <a href="javascript:ajaxLoad('{{url('/?field=id&sort='.(request()->session()->get('sort')=='asc'?'desc':'asc'))}}')">
-                                No.{{request()->session()->get('field')=='id'?(request()->session()->get('sort')=='asc'?'▴':'▾'):''}}
+                                ID{{request()->session()->get('field')=='id'?(request()->session()->get('sort')=='asc'?'▴':'▾'):''}}
                             </a>
                         </th>
                         <th width="1%">
