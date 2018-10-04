@@ -82,7 +82,7 @@
                                 <td class="align-middle">{{ $key }}</td>
                                 <td class="align-middle">{{ $row['file_name'] }}</td>
                                 <td class="align-middle">
-                                    <input class="form-control" type="date" name="saveDate{{ $key }}" id="saveDate{{ $key }}" value="{{ $row['date'] }}">
+                                    <input class="form-control" type="date" name="saveDate{{ $key }}" id="saveDate{{ $key }}" value="<?php echo old('saveDate' . $key) ? old('saveDate' . $key) : $row['date'] ?>">
                                 </td>
                                 <td style="text-align:left">{{ str_limit($row['content'], 100) }}</td>
                                 <td class="align-middle">

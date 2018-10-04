@@ -90,12 +90,23 @@ class PostsController extends Controller
         $passedData = $request->session()->get('passData');
         
         $rule = array();
+        $ruleDateOnly = array();
         foreach($passedData as $key => $value){
             $rule['saveDivision' . $key] = ['required', new checkForUndetectedTextContent];
+            $rule['saveDate' . $key] = ['required'];
+            $ruleDateOnly['saveDate' . $key] = ['required'];
         }
 
+        //dd($ruleDateOnly);
+        $request->validate($ruleDateOnly);
+
         if(($request->input('saveAllDivision')) == 0){
-            $request->validate($rule);
+            $validator = Validator::make($request->all(), $rule); 
+            if ($validator->fails())
+            {
+                $errors = $validator->errors();
+                return redirect('view_files')->with('errors', $errors)->withInput();
+            }
         }
 
         //Loop Create new Data
