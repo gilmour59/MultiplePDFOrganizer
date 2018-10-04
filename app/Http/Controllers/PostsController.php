@@ -92,13 +92,19 @@ class PostsController extends Controller
             //dd($key . ' + ' . $value['file_name']);
             //dd($value);
             $archiveFiles = new ArchiveFile();
+
+            if(($request->input('saveAllDivision')) == 0){
+                $div_key = $request->input('saveDivision' . $key);
+            }else{
+                $div_key = $request->input('saveAllDivision');
+            }
             
-            $archiveFiles->division_id = $request->input('saveDivision' . $key);
+            $archiveFiles->division_id = $div_key;
             //$archiveFiles->date = $value['date'];
             $archiveFiles->date = $request->input('saveDate' . $key);
             $archiveFiles->content = $value['content'];
 
-            $division = Division::find($request->input('saveDivision' . $key));
+            $division = Division::find($div_key);
 
             $archiveFiles->file_name = $value['file_name'];
             $FileSys = new Filesystem();

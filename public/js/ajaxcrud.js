@@ -3,44 +3,6 @@
         ajaxLoad($(this).attr('href'));
     });
 
-/*     $(document).on('submit', '#addFileForm', function(event) {
-        event.preventDefault();
-
-        $('.loading').show();
-        var form = $(this);
-        var data = new FormData(this);
-        var url = form.attr("action");
-        var type = form.attr("method");
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            error: function (xhr, textStatus, errorThrown) {
-                alert("Error: " + errorThrown);
-            },
-            success: function(data){
-                $('.is-invalid').removeClass('is-invalid');
-                if (data.fail) {
-                    $('.loading').hide();
-                    if(data.errors){
-                        for (control in data.errors) {
-                            $('#' + control).addClass('is-invalid');
-                            $('#error-' + control).html(data.errors[control]);
-                        }
-                    }else if(data.errorParse){
-                        alert(data.errorParse);
-                    }
-                }  
-            }
-        });
-        //$('.loading').hide();
-        return false;
-    });  */
-
     $(document).on('submit', '#editFileForm', function(event) {
         event.preventDefault();
 
@@ -172,11 +134,16 @@
             url: filename,
             success: function (data) {
                 var division = '';
+                var allDivision = '';
                 division += "<option value=0>Can't Detect Division</option>";
+                allDivision += "<option value=0>Manual</option>";
                 for(var i = 0; i < data.divisions.length; i++){
                     var dataDiv = data.divisions[i].div_name;
                     division += "<option value='"+ (i + 1) +"'>"+ dataDiv +"</option>";
+                    allDivision += "<option value='"+ (i + 1) +"'>"+ dataDiv +"</option>";
                 }
+
+                $('#allDivision').append(allDivision);
 
                 for(var i = 0; i < number.length; i++){
                     $('#saveDivision'+i).append(division);
