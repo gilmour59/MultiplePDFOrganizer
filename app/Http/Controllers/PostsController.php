@@ -86,6 +86,8 @@ class PostsController extends Controller
         //dd($request->session()->get('passData'));
         //dd($request->all());
 
+        //CREATE THIS: if ($request->input('saveDivision' . $key) == 0) then return to index with error
+
         //Loop Create new Data
         $passedData = $request->session()->get('passData');
         foreach($passedData as $key => $value){
