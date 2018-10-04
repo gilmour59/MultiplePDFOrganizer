@@ -101,12 +101,7 @@ class PostsController extends Controller
         $request->validate($ruleDateOnly);
 
         if(($request->input('saveAllDivision')) == 0){
-            $validator = Validator::make($request->all(), $rule); 
-            if ($validator->fails())
-            {
-                $errors = $validator->errors();
-                return redirect('view_files')->with('errors', $errors)->withInput();
-            }
+            $request->validate($rule);
         }
 
         //Loop Create new Data
