@@ -41,7 +41,9 @@ class ViewForSavingController extends Controller
 
             foreach($request->file('addFileUpload') as $file)
             {
+                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $fileNameToStore = $file->getClientOriginalName();
+
                 $path = $file->storeAs('public/temp', $fileNameToStore); 
 
                 $parser = new Parser();
@@ -54,7 +56,7 @@ class ViewForSavingController extends Controller
                     alert('Parsing Error');
                     return view('index');
                 }
-                $data[] = array('file_name' => $fileNameToStore, 'date' => $date, 'content' => $text, 'key_div' => $key_div);  
+                $data[] = array('file' => $fileNameToStore, 'file_name' => $file_name ,'date' => $date, 'content' => $text, 'key_div' => $key_div);  
             }
             $passData = $data;
             $request->session()->put('passData', $passData);

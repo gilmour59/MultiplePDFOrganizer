@@ -125,10 +125,10 @@ class PostsController extends Controller
 
             $archiveFiles->file_name = $value['file_name'];
             $FileSys = new Filesystem();
-            if($FileSys->exists(storage_path('app/public/temp/') . $value['file_name'])){
-                $file = time() . '' . $value['file_name'];
+            if($FileSys->exists(storage_path('app/public/temp/') . $value['file'])){
+                $file = time() . '' . $value['file'];
                 //dd($file);
-                Storage::move('public/temp/' .  $value['file_name'], 'public/' . $division->div_name . '/' . $file);
+                Storage::move('public/temp/' .  $value['file'], 'public/' . $division->div_name . '/' . $file);
                 $archiveFiles->file = $file;
 
                 $archiveFiles->save(); 
@@ -230,12 +230,10 @@ class PostsController extends Controller
     public function edit($id)
     {
         $archiveFiles = ArchiveFile::find($id);
-        $category = Category::find($archiveFiles->category_id);
-        $division = Division::find($category->division_id);
+        $division = Division::find($archiveFiles->division_id);
 
         return response()->json([
             'file' => $archiveFiles,
-            'category' => $category->id,
             'division' => $division->id
         ]);
     }

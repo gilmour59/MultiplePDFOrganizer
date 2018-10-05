@@ -32,12 +32,6 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="editCategory">Select Category:</label>
-                            <select class="form-control" id="editCategory" name="editCategory">
-                                <!--ajax options-->
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label class="control-label" for="editDate">Date Received: <small>mm/dd/yyyy</small></label>
                             <input class="form-control <?php $errors->has('editDate') ? "is-invalid": ""?>" type="date" name="editDate" id="editDate" autofocus>
                             <span id="error-editDate" class="invalid-feedback"></span>

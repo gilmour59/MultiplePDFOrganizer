@@ -18,7 +18,6 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::get('/division', 'PostsController@division')->name('division');
-Route::get('/category/{id}', 'PostsController@category')->name('category');
 
 Route::get('/view_files', 'ViewForSavingController@deleteViewFile');
 Route::post('/view_files', 'ViewForSavingController@viewFiles')->name('view_files');
