@@ -171,6 +171,7 @@
             type: 'GET',
             url: filename,
             success: function (data) {
+                $('#editDivision').val(data.division);
                 $('#editFileName').val(data.file.file_name);
                 $('#editDate').val(data.file.date);
                 $('#editFileForm').attr('action', '/update/'+data.file.id);

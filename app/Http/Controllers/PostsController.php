@@ -8,7 +8,6 @@ use Validator;
 use Illuminate\Http\Request;
 use App\ArchiveFile;
 use App\Division;
-use App\Category;
 use Smalot\PdfParser\Parser;
 use App\Rules\checkForUndetectedTextContent;
 
@@ -144,7 +143,6 @@ class PostsController extends Controller
         $validator = Validator::make($request->all(), [
             'editFileUpload' => 'file|mimes:pdf',
             'editDivision' => 'required',
-            'editCategory' => 'required',
             'editDate' => 'required',
             'editFileName' => 'required'
         ]);
@@ -162,30 +160,26 @@ class PostsController extends Controller
 
         if($archiveFiles->file_name != $request->input('editFileName')){
 
-            $category = Category::find($archiveFiles->category_id);
-            $division = Division::find($category->division_id);
+            $division = Division::find($archiveFiles->division_id);
 
             $extension = explode(".", $archiveFiles->file);
             $extension = end($extension);
             $newFileName = time() . '' . $request->input('editFileName') . '.' . $extension;
 
-            Storage::move('public/' . $division->div_name . '/' . $category->name . '/' . $archiveFiles->file, 'public/' . $division->div_name . '/' . $category->name . '/' . $newFileName);
+            Storage::move('public/' . $division->div_name . '/' . $archiveFiles->file, 'public/' . $division->div_name . '/' . $newFileName);
 
             $archiveFiles->file_name = $request->input('editFileName');
             $archiveFiles->file = $newFileName;
         }
 
-        if($archiveFiles->category_id != $request->input('editCategory')){
+        if($archiveFiles->division_id != $request->input('editDivision')){
 
-            $categoryOld = Category::find($archiveFiles->category_id);
-            $divisionOld = Division::find($categoryOld->division_id);
-    
-            $categoryNew = Category::find($request->input('editCategory'));
-            $divisionNew = Division::find($categoryNew->division_id);
+            $divisionOld = Division::find($archiveFiles->division_id);
+            $divisionNew = Division::find($request->input('editDivision'));
 
-            Storage::move('public/' . $divisionOld->div_name . '/' . $categoryOld->name . '/' . $archiveFiles->file, 'public/' . $divisionNew->div_name . '/' . $categoryNew->name . '/' . $archiveFiles->file);
+            Storage::move('public/' . $divisionOld->div_name . '/' . $archiveFiles->file, 'public/' . $divisionNew->div_name . '/' . $archiveFiles->file);
 
-            $archiveFiles->category_id = $request->input('editCategory');
+            $archiveFiles->division_id = $request->input('editDivision');
         }
 
         //Handle File Upload
@@ -196,13 +190,11 @@ class PostsController extends Controller
             $extension = $request->file('editFileUpload')->getClientOriginalExtension();
             $fileNameToStore = time() . '' . $request->input('editFileName') . '.' . $extension;
 
-            //Find Category name
-            $category = Category::find($archiveFiles->category_id);
-            $division = Division::find($category->division_id);
+            $division = Division::find($archiveFiles->division_id);
 
             //Delete and Replace
-            Storage::delete('public/' . $division->div_name . '/' . $category->name . '/' . $archiveFiles->file);
-            $path = $request->file('editFileUpload')->storeAs('public/' . $division->div_name . '/' . $category->name, $fileNameToStore);
+            Storage::delete('public/' . $division->div_name . '/' . $archiveFiles->file);
+            $path = $request->file('editFileUpload')->storeAs('public/' . $division->div_name . '/', $fileNameToStore);
 
             //Parse pdf
             $parser = new Parser();
@@ -241,10 +233,9 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $archiveFiles = ArchiveFile::find($id);
-        $category = Category::find($archiveFiles->category_id);
-        $division = Division::find($category->division_id);
+        $division = Division::find($archiveFiles->division_id);
 
-        Storage::delete('public/' . $division->div_name . '/' . $category->name . '/' . $archiveFiles->file);
+        Storage::delete('public/' . $division->div_name . '/' . $archiveFiles->file);
         $archiveFiles->delete();
     }
 
