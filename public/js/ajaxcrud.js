@@ -132,22 +132,28 @@
             type: 'GET',
             url: filename,
             success: function (data) {
+                var divisionZero = '';
                 var division = '';
                 var allDivision = '';
-                division += "<option value=0>Can't Detect Division</option>";
+                divisionZero += "<option value=0>Can't Detect Division</option>";
                 allDivision += "<option value=0>Manual</option>";
                 for(var i = 0; i < data.divisions.length; i++){
                     var dataDiv = data.divisions[i].div_name;
                     division += "<option value='"+ (i + 1) +"'>"+ dataDiv +"</option>";
                     allDivision += "<option value='"+ (i + 1) +"'>"+ dataDiv +"</option>";
+                    divisionZero += "<option value='"+ (i + 1) +"'>"+ dataDiv +"</option>";
                 }
 
                 $('#allDivision').append(allDivision);
 
                 for(var i = 0; i < number.length; i++){
-                    $('#saveDivision'+i).append(division);
-                    $('#saveDivision'+i).val(number[i]).trigger('change');
-
+                    if(number[i] == 0){
+                        $('#saveDivision'+i).append(divisionZero);
+                        $('#saveDivision'+i).val(number[i]).trigger('change');    
+                    }else{
+                        $('#saveDivision'+i).append(division);
+                        $('#saveDivision'+i).val(number[i]).trigger('change');   
+                    }
                     console.log(number[i]);
                 }
                 $('.loading').hide();

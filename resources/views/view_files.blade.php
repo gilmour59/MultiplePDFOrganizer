@@ -20,7 +20,16 @@
     @endif
                 
     <div class="row pb-1">
-        <div class="offset-6 col-sm-4">
+        <div class="col-sm-6">
+            @foreach ($passData as $key => $row)
+                <ul>
+                @if($row['key_div'] == 0)
+                    <li>Cannot Detect ID: {{$key}}'s Division.</li>
+                @endif
+                </ul>
+            @endforeach
+        </div>
+        <div class="col-sm-4">
             <div class="row">
                 <div class="col-sm-5 pt-2 text-right">
                     <label for="addDivision">Select All:</label>
