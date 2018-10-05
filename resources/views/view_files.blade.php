@@ -82,7 +82,7 @@
                                 <td class="align-middle">{{ $key }}</td>
                                 <td class="align-middle">{{ $row['file_name'] }}</td>
                                 <td class="align-middle">
-                                    <input class="form-control" type="date" name="saveDate{{ $key }}" id="saveDate{{ $key }}" value="<?php echo old('saveDate' . $key) ? old('saveDate' . $key) : $row['date'] ?>">
+                                    <input class="changeDate form-control" type="date" name="saveDate{{ $key }}" id="saveDate{{ $key }}" value="<?php echo old('saveDate' . $key) ? old('saveDate' . $key) : $row['date'] ?>">
                                 </td>
                                 <td style="text-align:left">{{ str_limit($row['content'], 100) }}</td>
                                 <td class="align-middle">
@@ -114,21 +114,18 @@
             ajaxDivisionGenerateForViewFiles('/division', num); 
         });
 
-        @foreach ($passData as $key => $row)
-        $('#saveDivision{{ $key }}').change(function(){
-            if($('#saveDivision{{ $key }}').val() == 0){
-                $('#submitBtn').attr('disabled', true);
-            }
-        }); 
-        @endforeach
-
-        $('.changeDivision').change(function(){
+        //Disables Submit Button If no division is selected
+        $('.changeDivision, .changeDate').change(function(){
             var isValid = true
             $('.changeDivision').each(function(){
                 if ($(this).val() == 0)
                     isValid = false;
             });
 
+            $('.changeDate').each(function(){
+                if ($(this).val() == false)
+                    isValid = false;
+            });
              if( isValid ) {
                 $('#submitBtn').prop('disabled', false);
             } else {
