@@ -21,12 +21,11 @@
                 
     <div class="row pb-1">
         <div class="col-sm-6">
+            <span>Error in IDs: </span>
             @foreach ($passData as $key => $row)
-                <ul>
                 @if($row['key_div'] == 0)
-                    <li>Cannot Detect ID: {{$key}}'s Division.</li>
+                    <span style="color:red;">{{$key . ', '}}</span>
                 @endif
-                </ul>
             @endforeach
         </div>
         <div class="col-sm-4">
@@ -124,6 +123,30 @@
         });
 
         //Disables Submit Button If no division is selected
+        $('#allDivision').change(function(){
+            if($('#allDivision').val() == 0){
+                $('.changeDivision, .changeDate').trigger('change');
+                $('.changeDivision, .changeDate').change(function(){
+                    var isValid = true
+                    $('.changeDivision').each(function(){
+                        if ($(this).val() == 0)
+                            isValid = false;
+                    });
+                    $('.changeDate').each(function(){
+                        if ($(this).val() == false)
+                            isValid = false;
+                    });
+                    if( isValid ) {
+                        $('#submitBtn').prop('disabled', false);
+                    } else {
+                        $('#submitBtn').prop('disabled', true);
+                    }
+                });        
+            }else{
+                $('#submitBtn').prop('disabled', false);
+            }
+        });
+
         $('.changeDivision, .changeDate').change(function(){
             var isValid = true
             $('.changeDivision').each(function(){

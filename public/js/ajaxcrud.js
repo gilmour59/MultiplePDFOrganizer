@@ -145,6 +145,7 @@
                 }
 
                 $('#allDivision').append(allDivision);
+                $('#allDivision').trigger('change');
 
                 for(var i = 0; i < number.length; i++){
                     if(number[i] == 0){
