@@ -146,7 +146,8 @@
 
                 for(var i = 0; i < number.length; i++){
                     $('#saveDivision'+i).append(division);
-                    $('#saveDivision'+i).val(number[i]);
+                    $('#saveDivision'+i).val(number[i]).trigger('change');
+
                     console.log(number[i]);
                 }
                 $('.loading').hide();

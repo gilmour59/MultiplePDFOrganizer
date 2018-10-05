@@ -34,7 +34,7 @@
         </div>
         <div class="offset-1 col-sm-1 pb-1 align-self-end" style="text-align:right;">
             @if (!empty($passData))
-            <button type="submit" form="saveFileForm" class="btn btn-primary" value="Submit">Save</button>
+            <button id="submitBtn" type="submit" form="saveFileForm" class="btn btn-primary" value="Submit">Save</button>
             @else
             <a class="btn btn-primary" href="{{route('index')}}">Go Back</a>
             @endif
@@ -112,6 +112,28 @@
         $(document).ready(function(){ 
             console.log(num);
             ajaxDivisionGenerateForViewFiles('/division', num); 
+        });
+
+        @foreach ($passData as $key => $row)
+        $('#saveDivision{{ $key }}').change(function(){
+            if($('#saveDivision{{ $key }}').val() == 0){
+                $('#submitBtn').attr('disabled', true);
+            }
+        }); 
+        @endforeach
+
+        $('.changeDivision').change(function(){
+            var isValid = true
+            $('.changeDivision').each(function(){
+                if ($(this).val() == 0)
+                    isValid = false;
+            });
+
+             if( isValid ) {
+                $('#submitBtn').prop('disabled', false);
+            } else {
+                $('#submitBtn').prop('disabled', true);
+            }
         });
 
         $('#allDivision').change(function() { 
