@@ -35,9 +35,7 @@
                             </a>
                         </th>
                         <th width="1%">
-                            <a href="javascript:ajaxLoad('{{url('/?field=division&sort='.(request()->session()->get('sort')=='asc'?'desc':'asc'))}}')">
-                                Division{{request()->session()->get('field')=='division'?(request()->session()->get('sort')=='asc'?'▴':'▾'):''}}
-                            </a>
+                            Division
                         </th>
                         <th width="1%"></th>
                         <th width="1%"></th>
