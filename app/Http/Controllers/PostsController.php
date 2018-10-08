@@ -232,11 +232,13 @@ class PostsController extends Controller
 
     public function destroy($id)
     {
-        $archiveFiles = ArchiveFile::find($id);
+        $archiveFiles = ArchiveFile::findOrFail($id);
         $division = Division::find($archiveFiles->division_id);
-        
+
+        $archiveFiles->unsearchable();
+
         Storage::delete('public/' . $division->div_name . '/' . $archiveFiles->file);
-        //$archiveFiles->unsearchable();
+        
         $archiveFiles->delete();
     }
 

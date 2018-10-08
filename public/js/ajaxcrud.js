@@ -77,7 +77,6 @@
             url: filename,
             success: function() {
                 ajaxLoad('/');
-                $('.loading').hide();
             },
         });
     }
