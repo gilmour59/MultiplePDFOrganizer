@@ -234,8 +234,9 @@ class PostsController extends Controller
     {
         $archiveFiles = ArchiveFile::find($id);
         $division = Division::find($archiveFiles->division_id);
-
+        
         Storage::delete('public/' . $division->div_name . '/' . $archiveFiles->file);
+        //$archiveFiles->unsearchable();
         $archiveFiles->delete();
     }
 
