@@ -24,7 +24,7 @@
                             }, 2000);
                         </script>
                     @endif
-                    <form id="addFileForm" method="POST" action="/view_files" enctype="multipart/form-data">
+                    <form id="addFileForm" method="POST" action="{{ route('view_files') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label class="control-label" for="addDate">Date Received: <small>mm/dd/yyyy</small></label>

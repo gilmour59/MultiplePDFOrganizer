@@ -87,8 +87,8 @@
 <script>
     $(document).ready(function(){
         Division = {{$division}};
-        ajaxDivisionGenerateForSearch('/division', Division);
-        ajaxDivisionGenerate('/division');
+        ajaxDivisionGenerateForSearch('division', Division);
+        ajaxDivisionGenerate('division');
         //ajaxLoad('/');
         @if (count($errors) > 0)
             @if (session('isAdd'))

@@ -114,7 +114,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <form action="/store" method="POST" id="saveFileForm">
+                    <form action="{{route('store')}}" method="POST" id="saveFileForm">
                         @csrf
                         <tbody id="changeDivision">
                             <script>
@@ -170,7 +170,7 @@
     <script>
         $(document).ready(function(){ 
             console.log(num);
-            ajaxDivisionGenerateForViewFiles('/division', num); 
+            ajaxDivisionGenerateForViewFiles('division', num); 
         });
 
         //Disables Submit Button If no division is selected
