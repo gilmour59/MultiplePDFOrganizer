@@ -40,7 +40,7 @@
             </div>
             <div class="modal-footer">
                 <button id="closeAddFilebtn" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" form="addFileForm" class="btn btn-primary" value="Submit">Save</button>
+                <button id="submitAddFilebtn" type="submit" form="addFileForm" class="btn btn-primary" value="Submit">Save</button>
             </div>
         </div>
     </div>
@@ -60,6 +60,10 @@
         $('#addFileForm')[0].reset();
         document.getElementById("addDate").valueAsDate = new Date();
         updateList();
+    });
+
+    $('#submitAddFilebtn').click(function(){
+        $('.loading').show();
     });
 
 </script>

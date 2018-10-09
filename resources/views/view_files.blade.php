@@ -1,5 +1,43 @@
 @extends('layouts.app')
 
+@section('css')
+  <style>
+    .loading {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0,0,0,.5);
+        text-align: center;
+        z-index: 2000;
+        display: none;
+    }
+
+    .loading-spin{
+        width: 100%;
+        height: auto;
+        margin-top: -50px;
+        margin-left: -50px;
+        
+        position: fixed;
+        top: 50%;
+        left: 0;
+        
+        border-width: 30px;
+        border-radius: 50%;
+    }
+
+    .form-group.required label:after {
+        content: " *";
+        color: red;
+        font-weight: bold;
+    }
+  </style>
+@endsection
+
 @section('content')
 <div class="card mx-auto" style="width: 1150px;">
     <div class="card-header font-weight-bold">
@@ -118,6 +156,13 @@
         </div>
     </div>
 </div>
+<div class="loading">
+    <div class='loading-spin'>
+        <i class="fas fa-spinner fa-spin fa-5x"></i>
+        <br>
+        <span id='loading'>Loading</span>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -181,6 +226,10 @@
                 $('#changeDivision').find(".changeDivision").attr('disabled', true);
                 $('#saveAllDivision').val($('#allDivision').val());
             }
+        });
+
+        $('#submitBtn').click(function(){
+            $('.loading').show();
         });
     </script>
 @endsection
