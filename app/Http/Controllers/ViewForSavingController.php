@@ -36,13 +36,29 @@ class ViewForSavingController extends Controller
 
         if($request->hasFile('addFileUpload')){
             
-            $cleaner = new Filesystem();
-            $cleaner->cleanDirectory(storage_path('app/public/temp'));
+            //$cleaner = new Filesystem();
+            //$cleaner->cleanDirectory(storage_path('app/public/temp'));
+
+            $path = storage_path('app/public/temp/');
+            if ($handle = opendir($path)) {
+
+                while (false !== ($file = readdir($handle))) { 
+                    $filelastmodified = filemtime($path . $file);
+                    time() - $filelastmodified;
+                    //24 hours in a day * 3600 seconds per hour
+                    if((time()-$filelastmodified) > 3600 && $file != '.' && $file != '..')
+                    {
+                    unlink($path . $file);
+                    }
+                }
+                closedir($handle); 
+            }
 
             foreach($request->file('addFileUpload') as $file)
             {
                 $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $fileNameToStore = $file->getClientOriginalName();
+                $fileNameToStore = time() . '' . $fileNameToStore;
 
                 $path = $file->storeAs('public/temp', $fileNameToStore); 
 

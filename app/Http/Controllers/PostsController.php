@@ -34,7 +34,7 @@ class PostsController extends Controller
 
         $request->session()->put('sort', $request
                 ->has('sort') ? $request->get('sort') : ($request->session()
-                ->has('sort') ? $request->session()->get('sort') : 'asc'));
+                ->has('sort') ? $request->session()->get('sort') : 'desc'));
 
         $archiveFileIds = new ArchiveFile();
         $archiveFiles = new ArchiveFile();
@@ -108,6 +108,8 @@ class PostsController extends Controller
             //dd($key . ' + ' . $value['file_name']);
             //dd($value);
             $archiveFiles = new ArchiveFile();
+
+            sleep(2);
 
             if(($request->input('saveAllDivision')) == 0){
                 $div_key = $request->input('saveDivision' . $key);
