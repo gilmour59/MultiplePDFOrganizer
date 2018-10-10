@@ -16,10 +16,10 @@ class CreateArchiveFilesTable extends Migration
         Schema::create('archive_files', function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
-            $table->longText('content')->nullable();
+            $table->longText('content');
             $table->integer('division_id');
             $table->string('file_name', 100);
-            $table->string('file', 100)->nullable();
+            $table->string('file', 100);
             $table->timestamps();
         });
     }
