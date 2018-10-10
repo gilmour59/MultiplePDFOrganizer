@@ -127,7 +127,7 @@ class PostsController extends Controller
             $archiveFiles->file_name = $value['file_name'];
             $FileSys = new Filesystem();
             if($FileSys->exists(storage_path('app/public/temp/') . $value['file'])){
-                $file = time() . '' . $value['file'];
+                $file = $value['file'];
                 //dd($file);
                 Storage::move('public/temp/' .  $value['file'], 'public/' . $division->div_name . '/' . $file);
                 $archiveFiles->file = $file;
