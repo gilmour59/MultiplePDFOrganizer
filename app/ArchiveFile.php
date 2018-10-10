@@ -15,10 +15,11 @@ class ArchiveFile extends Model
     
     public function toSearchableArray()
     {
-        $array = $this->toArray();
-
-        // Customize array...
-
-        return $array;
+        return [
+            'id' => $this->id,
+            'date' => $this->date,
+            'content' => $this->content,
+            'file_name' => $this->file_name,
+        ];
     }
 }

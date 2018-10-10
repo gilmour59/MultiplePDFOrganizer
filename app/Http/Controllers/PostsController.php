@@ -109,7 +109,7 @@ class PostsController extends Controller
             //dd($value);
             $archiveFiles = new ArchiveFile();
 
-            sleep(2);
+            sleep(1);
 
             if(($request->input('saveAllDivision')) == 0){
                 $div_key = $request->input('saveDivision' . $key);
@@ -241,6 +241,7 @@ class PostsController extends Controller
 
         Storage::delete('public/' . $division->div_name . '/' . $archiveFiles->file);
         
+        //$archiveFiles->unsearchable();
         $archiveFiles->delete();
     }
 
